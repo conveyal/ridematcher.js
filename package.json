@@ -5,7 +5,7 @@
   "main": "./build/index",
   "scripts": {
     "prepublish": "make",
-    "test": "standard && NODE_ENV=test babel-node ./node_modules/.bin/mocha --compilers js:babel/register --recursive --reporter spec --slow 10 --timeout 10s",
+    "test": "NODE_ENV=test babel-node ./node_modules/.bin/mocha --compilers js:babel/register --recursive --reporter spec --slow 10 --timeout 10s",
     "test-cov": "NODE_ENV=test babel-node isparta cover ./node_modules/.bin/_mocha -- --recursive --compilers js:babel/register --reporter dot --slow 10 --timeout 30s",
     "test-travis": "NODE_ENV=test babel-node isparta cover ./node_modules/.bin/_mocha --report lcovonly -- --recursive --compilers js:babel/register --reporter dot --slow 10 --timeout 30s"
   },
