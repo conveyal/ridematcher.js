@@ -1,5 +1,7 @@
 import rbush from 'rbush'
-import turf from 'turf'
+import turfDestination from 'turf-destination'
+import turfDistance from 'turf-distance'
+import turfPoint from 'turf-point'
 
 /**
  * Make a SOAP request to [Commuter Connections](http://www.commuterconnections.org/) to get the number of carpools available for a given starting, ending location, and search radius.
@@ -10,68 +12,65 @@ import turf from 'turf'
  * import {findMatches} from 'commuter-connections'
  * findMatches({
  *   commuters: [{
- *     id: 1,
- *     startLat: 39.0436,
- *     startLng: -77.4875,
- *   }],
- *   radius: .5,
- *   units: 'miles'
- * }).then((matches) => {
- *   console.log(matches) // map of commuter id's to matching commuter id's
+ *     _id: 1,
+ *     coordinates: [-77.4875, 39.0436]
+ *   }], {
+ *     radius: .5,
+ *     units: 'miles'
+ * }}).then((matches) => {
+ *     console.log(matches) // map of commuter id's to matching commuter id's
  * }, handleError)
  */
 
-export function findMatches (opts = {}) {
+export function findMatches (commuters, opts = {}) {
   return new Promise((resolve, reject) => {
+    if (!commuters) return reject('No commuters.')
 
-    if (!opts.commuters) return reject('No commuters.')
+    const tree = rbush()
+    tree.load(commuters.map(c => {
+      return [ c.coordinates[0], c.coordinates[1], c.coordinates[0], c.coordinates[1], c ]
+    }))
 
-    var locations = []
-    opts.commuters.forEach(commuter => {
-      locations.push([commuter.fromLng, commuter.fromLat, commuter.fromLng, commuter.fromLat, { commuter: commuter }])
-    })
-    var tree = rbush()
-    tree.load(locations)
+    const responses = []
+    const RADIUS = opts.radius || 0.25
+    const DIST = RADIUS * Math.sqrt(2)
+    const UNITS = opts.units || 'miles'
 
-    var response = {}
-
-    var radius = opts.radius || 0.25
-    var units = opts.units || 'miles'
-    opts.commuters.forEach(commuter => {
-      var fromPoint = turf.point([commuter.fromLng, commuter.fromLat])
+    commuters.forEach(commuter => {
+      const fromPoint = turfPoint(commuter.coordinates)
 
       // construct bbox
-      var dist = radius * Math.sqrt(2)
-      var bottomLeft = turf.destination(fromPoint, dist, -135, units)
-      var topRight = turf.destination(fromPoint, dist, 45, units)
+      const bottomLeft = turfDestination(fromPoint, DIST, -135, UNITS)
+      const topRight = turfDestination(fromPoint, DIST, 45, UNITS)
 
       // do the initial bbox search
-      var results = tree.search(bottomLeft.geometry.coordinates.concat(topRight.geometry.coordinates))
+      const results = tree.search(bottomLeft.geometry.coordinates.concat(topRight.geometry.coordinates))
 
       // filter the matches
-      var matches = []
-      results.forEach(result => {
-        var match = result[4].commuter
-        var matchPoint = turf.point([result[0], result[1]])
+      const matches = results.reduce((matches, result) => {
+        const match = result[4]._id
+        const matchPoint = turfPoint([result[0], result[1]])
 
         // ignore self match
-        if (match === commuter) return
+        if (match === commuter._id) return matches
 
         // ignore matches where distance exceeds search radius
-        var dist = turf.distance(fromPoint, matchPoint, units)
-        if (dist > radius) return
+        const distance = turfDistance(fromPoint, matchPoint)
+        if (distance > RADIUS) return matches
 
         matches.push({
-          id: match.id,
-          distance: dist
+          _id: match,
+          distance: distance
         })
-      })
+        return matches
+      }, [])
 
-      if (matches.length > 0) {
-        response[commuter.id] = matches
-      }
+      responses.push({
+        _id: commuter._id,
+        matches: matches
+      })
     })
 
-    resolve(response)
+    resolve(responses)
   })
 }

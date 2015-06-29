@@ -1,12 +1,12 @@
 {
   "name": "ridematcher",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Find carpool/vanpool matches within a commuter population",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/standard && NODE_ENV=test node_modules/.bin/babel-node node_modules/.bin/mocha --compilers js:babel/register --recursive --reporter spec --slow 10 --timeout 10s",
-    "test-cov": "NODE_ENV=test node_modules/.bin/babel-node node_modules/.bin/isparta cover node_modules/mocha/bin/_mocha -- --recursive --compilers js:babel/register --reporter dot --slow 10 --timeout 30s",
-    "test-travis": "NODE_ENV=test node_modules/.bin/babel-node node_modules/.bin/isparta cover ./node_modules/.bin/_mocha --report lcovonly -- --recursive --compilers js:babel/register --reporter dot --slow 10 --timeout 30s"
+    "test": "standard && NODE_ENV=test babel-node ./node_modules/.bin/mocha --compilers js:babel/register --recursive --reporter spec --slow 10 --timeout 10s",
+    "test-cov": "NODE_ENV=test babel-node isparta cover ./node_modules/.bin/_mocha -- --recursive --compilers js:babel/register --reporter dot --slow 10 --timeout 30s",
+    "test-travis": "NODE_ENV=test babel-node isparta cover ./node_modules/.bin/_mocha --report lcovonly -- --recursive --compilers js:babel/register --reporter dot --slow 10 --timeout 30s"
   },
   "repository": {
     "type": "git",
@@ -24,8 +24,10 @@
   },
   "homepage": "https://github.com/conveyal/ridematcher.js",
   "dependencies": {
-    "turf": "*",
-    "rbush": "*"
+    "rbush": "^1.4.0",
+    "turf-destination": "^1.2.1",
+    "turf-distance": "^1.0.1",
+    "turf-point": "^2.0.1"
   },
   "devDependencies": {
     "babel": "^5.1.9",

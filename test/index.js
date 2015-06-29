@@ -4,8 +4,8 @@ import {findMatches} from '../'
 
 describe('ridematcher.js', () => {
   it('findMatches', (done) => {
-    findMatches({
-      commuters: getCommuters(1000)
+    findMatches(getCommuters(1000), {
+      radius: 0.5
     }).then((response) => {
       console.log(response)
       done()
@@ -15,16 +15,14 @@ describe('ridematcher.js', () => {
 
 // generate random commuters
 function getCommuters (numCommuters) {
-
-  var bottom = 38.67792, left = -77.32649, top = 38.9798, right = -76.9382
+  const bottom = 38.67792, left = -77.32649, top = 38.9798, right = -76.9382
   numCommuters = numCommuters || 100
 
-  var commuters = []
-  for (var i = 0; i < numCommuters; i++) {
+  const commuters = []
+  for (let i = 0; i < numCommuters; i++) {
     commuters.push({
-      id: i + 1,
-      fromLat: bottom + Math.random() * (top - bottom),
-      fromLng: left + Math.random() * (right - left)
+      _id: i + 1,
+      coordinates: [left + Math.random() * (right - left), bottom + Math.random() * (top - bottom)]
     })
   }
 
