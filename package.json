@@ -2,8 +2,9 @@
   "name": "ridematcher",
   "version": "0.0.1",
   "description": "Find carpool/vanpool matches within a commuter population",
-  "main": "index.js",
+  "main": "./build/index",
   "scripts": {
+    "prepublish": "make",
     "test": "standard && NODE_ENV=test babel-node ./node_modules/.bin/mocha --compilers js:babel/register --recursive --reporter spec --slow 10 --timeout 10s",
     "test-cov": "NODE_ENV=test babel-node isparta cover ./node_modules/.bin/_mocha -- --recursive --compilers js:babel/register --reporter dot --slow 10 --timeout 30s",
     "test-travis": "NODE_ENV=test babel-node isparta cover ./node_modules/.bin/_mocha --report lcovonly -- --recursive --compilers js:babel/register --reporter dot --slow 10 --timeout 30s"
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/conveyal/ridematcher.js",
   "dependencies": {
+    "babel-runtime": "^5.6.15",
     "rbush": "^1.4.0",
     "turf-destination": "^1.2.1",
     "turf-distance": "^1.0.1",
