@@ -6,6 +6,7 @@ import turfPoint from 'turf-point'
 /**
  * Make a SOAP request to [Commuter Connections](http://www.commuterconnections.org/) to get the number of carpools available for a given starting, ending location, and search radius.
  *
+ * @param {Array} commuters Array of commuters to match to each other
  * @param {Object} opts Options object
  * @returns {Promise} promise
  * @example
@@ -13,7 +14,8 @@ import turfPoint from 'turf-point'
  * findMatches({
  *   commuters: [{
  *     _id: 1,
- *     coordinates: [-77.4875, 39.0436]
+ *     from: [-77.4875, 39.0436],
+ *     to: [..]
  *   }], {
  *     radius: .5,
  *     units: 'miles'
@@ -28,7 +30,8 @@ export function findMatches (commuters, opts = {}) {
 
     const tree = rbush()
     tree.load(commuters.map(c => {
-      return [ c.coordinates[0], c.coordinates[1], c.coordinates[0], c.coordinates[1], c ]
+      const to = c.to || c.from
+      return [ c.from[0], c.from[1], to[0], to[1], c ]
     }))
 
     const responses = []
