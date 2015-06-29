@@ -4,6 +4,7 @@
   "description": "Find carpool/vanpool matches within a commuter population",
   "main": "./build/index",
   "scripts": {
+    "docs": "dox -r < index.js | doxme --readme > README.md",
     "prepublish": "make",
     "test": "NODE_ENV=test babel-node ./node_modules/.bin/mocha --compilers js:babel/register --recursive --reporter spec --slow 10 --timeout 10s",
     "test-cov": "NODE_ENV=test babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive --compilers js:babel/register --reporter dot --slow 10 --timeout 30s",
@@ -33,6 +34,8 @@
   },
   "devDependencies": {
     "babel": "^5.1.9",
+    "dox": "^0.8.0",
+    "doxme": "^1.8.2",
     "isparta": "^3.0.3",
     "mocha": "^2.2.4",
     "standard": "^3.6.0"
