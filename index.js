@@ -34,7 +34,7 @@ export function findMatches (commuters, opts = {}) {
       return [ c.from[0], c.from[1], to[0], to[1], c ]
     }))
 
-    const responses = []
+    const responses = {}
     const RADIUS = opts.radius || 0.25
     const DIST = RADIUS * Math.sqrt(2)
     const UNITS = opts.units || 'miles'
@@ -68,10 +68,7 @@ export function findMatches (commuters, opts = {}) {
         return matches
       }, [])
 
-      responses.push({
-        _id: commuter._id,
-        matches: matches
-      })
+      responses[commuter._id] = matches
     })
 
     resolve(responses)
