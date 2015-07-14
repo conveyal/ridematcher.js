@@ -58,7 +58,7 @@ export function findMatches (commuters, opts = {}) {
         if (match === commuter._id) return matches
 
         // ignore matches where distance exceeds search radius
-        const distance = turfDistance(fromPoint, matchPoint)
+        const distance = turfDistance(fromPoint, matchPoint, UNITS)
         if (distance > RADIUS) return matches
 
         matches.push({
