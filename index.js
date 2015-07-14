@@ -40,7 +40,7 @@ export function findMatches (commuters, opts = {}) {
     const UNITS = opts.units || 'miles'
 
     commuters.forEach(commuter => {
-      const fromPoint = turfPoint(commuter.coordinates)
+      const fromPoint = turfPoint(commuter.from)
 
       // construct bbox
       const bottomLeft = turfDestination(fromPoint, DIST, -135, UNITS)
