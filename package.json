@@ -1,7 +1,7 @@
 {
   "name": "ridematcher",
-  "version": "0.1.0",
-  "description": "Find carpool/vanpool matches within a commuter population",
+  "version": "0.2.0",
+  "description": "Find carpool/vanpool matches",
   "main": "./build/index",
   "scripts": {
     "docs": "dox -r < index.js | doxme --readme > README.md",
