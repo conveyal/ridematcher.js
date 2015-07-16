@@ -7,7 +7,6 @@ describe('ridematcher.js', () => {
     findMatches(getCommuters(1000), {
       radius: 0.5
     }).then((response) => {
-      console.log(response)
       done()
     }, done)
   })
@@ -18,7 +17,6 @@ describe('ridematcher.js', () => {
     findRidepoolMatches([-77.32649, 38.67792], [-76.9382, 38.9798], getRidepools(10000), {
       radius: 1.5
     }).then((response) => {
-      console.log(response)
       done()
     }, done)
   })
@@ -45,7 +43,10 @@ function getCommuters (numCommuters) {
 
 // generate random vanpools
 function getRidepools (numPools) {
-  const bottom = 38.67792, left = -77.32649, top = 38.9798, right = -76.9382
+  const bottom = 38.67792
+  const left = -77.32649
+  const top = 38.9798
+  const right = -76.9382
   numPools = numPools || 100
 
   const pools = []
