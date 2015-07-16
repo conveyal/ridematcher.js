@@ -75,7 +75,6 @@ export function findMatches (commuters, opts = {}) {
   })
 }
 
-
 /**
  * Find matches for a single commute against a set of car/vanpools
  *
@@ -115,7 +114,6 @@ export function findRidepoolMatches (from, to, ridepools, opts = {}) {
       return [ r.to[0], r.to[1], r.to[0], r.to[1], r ]
     }))
 
-    const responses = {}
     const RADIUS = opts.radius || 0.25
     const DIST = RADIUS * Math.sqrt(2)
     const UNITS = opts.units || 'miles'
@@ -129,24 +127,20 @@ export function findRidepoolMatches (from, to, ridepools, opts = {}) {
 
     let s = fromBottomLeft.geometry.coordinates.concat(fromTopRight.geometry.coordinates)
     let fromMatches = fromTree.search(s)
-    fromMatches = fromMatches.filter(function(match) {
-      let distance = turfDistance(fromPoint, turfPoint([match[0], match[1]]), UNITS)
-      return distance <= RADIUS
-    }).map(function(match) { return match[4] })
+    fromMatches = fromMatches
+      .filter(match => turfDistance(fromPoint, turfPoint([match[0], match[1]]), UNITS) <= RADIUS)
+      .map(match => match[4])
 
     // find the pools matching the 'to' search point
     const toBottomLeft = turfDestination(toPoint, DIST, -135, UNITS)
     const toTopRight = turfDestination(toPoint, DIST, 45, UNITS)
 
     let toMatches = toTree.search(toBottomLeft.geometry.coordinates.concat(toTopRight.geometry.coordinates))
-    toMatches = toMatches.filter(function(match) {
-      let distance = turfDistance(toPoint, turfPoint([match[0], match[1]]), UNITS)
-      return distance <= RADIUS
-    }).map(function(match) { return match[4] })
+    toMatches = toMatches
+      .filter(match => turfDistance(toPoint, turfPoint([match[0], match[1]]), UNITS) <= RADIUS)
+      .map(match => match[4])
 
     // return the intersection of the two match sets
-    resolve(fromMatches.filter(function(n) {
-        return toMatches.indexOf(n) != -1
-    }))
+    resolve(fromMatches.filter(n => toMatches.indexOf(n) !== -1))
   })
 }
