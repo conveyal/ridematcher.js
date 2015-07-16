@@ -1,6 +1,6 @@
 /* global describe, it */
 
-import {findMatches} from '../'
+import {findMatches} from '../build'
 
 describe('ridematcher.js', () => {
   it('findMatches', (done) => {
