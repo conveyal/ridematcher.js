@@ -26,18 +26,18 @@
   },
   "homepage": "https://github.com/conveyal/ridematcher.js",
   "dependencies": {
-    "babel-runtime": "^5.6.15",
-    "rbush": "^1.4.0",
-    "turf-destination": "^1.2.1",
-    "turf-distance": "^1.0.1",
+    "babel-runtime": "^6.11.6",
+    "rbush": "^2.0.1",
+    "turf-destination": "^3.0.12",
+    "turf-distance": "^3.0.12",
     "turf-point": "^2.0.1"
   },
   "devDependencies": {
-    "babel": "^5.1.9",
-    "dox": "^0.8.0",
+    "babel": "^6.5.2",
+    "dox": "^0.9.0",
     "doxme": "^1.8.2",
-    "isparta": "^3.0.3",
-    "mocha": "^2.2.4",
-    "standard": "^3.6.0"
+    "isparta": "^4.0.0",
+    "mocha": "^3.0.2",
+    "standard": "^8.0.0"
   }
 }
