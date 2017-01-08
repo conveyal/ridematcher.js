@@ -21,15 +21,14 @@ Compute the number of potential carpool matches within a commuter population.
 
 ```js
 import {findMatches} from 'ridematcher'
-findMatches({
-  commuters: [{
-    _id: 1,
-    from: [-77.4875, 39.0436],
-    to: [..]
-  }], {
-    radius: .5,
-    units: 'miles'
-}}).then((matches) => {
+findMatches([{
+  _id: 1,
+  from: [-77.4875, 39.0436],
+  to: [..]
+}], {
+  radius: .5,
+  units: 'miles'
+}).then((matches) => {
     console.log(matches) // map of commuter id's to matching commuter id's
 }, handleError)
 ```
